@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foldesi Estate — Legal Case Manager v2</title>
+<style>
+:root{--bg:#0d1117;--s1:#161b22;--s2:#21262d;--s3:#2d333b;--bd:#30363d;--acc:#d4a017;--acc2:#c0392b;--tx:#e6edf3;--tx2:#8b949e;--tx3:#656d76;--gr:#238636;--bl:#1f6feb;--fn:'Georgia',serif;--mo:'Courier New',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--tx);font-family:var(--fn);display:flex;flex-direction:column;}
+.hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:200;}
+.hdr-title{font-size:17px;font-weight:bold;color:var(--acc);letter-spacing:.5px;}
+.hdr-sub{font-size:10px;color:var(--tx2);font-family:var(--mo);margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:10px;padding:3px 8px;border-radius:4px;font-family:var(--mo);letter-spacing:.5px;}
+.badge-red{background:var(--acc2);color:#fff;}
+.badge-amber{background:rgba(212,160,23,.2);color:var(--acc);border:1px solid rgba(212,160,23,.4);}
+.layout{display:flex;flex:1;overflow:hidden;}
+.sidebar{width:210px;background:var(--s1);border-right:1px solid var(--bd);overflow-y:auto;flex-shrink:0;padding:10px 0;}
+.nav-grp{margin-bottom:4px;}
+.nav-lbl{font-size:9px;color:var(--tx3);font-family:var(--mo);letter-spacing:1.5px;padding:8px 14px 4px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;font-size:12px;color:var(--tx2);transition:all .12s;border-left:2px solid transparent;white-space:nowrap;}
+.nav-item:hover{background:var(--s2);color:var(--tx);}
+.nav-item.active{background:rgba(212,160,23,.1);color:var(--acc);border-left-color:var(--acc);}
+.nav-icon{font-size:13px;width:15px;text-align:center;flex-shrink:0;}
+.main{flex:1;overflow-y:auto;position:relative;}
+.page{display:none;padding:20px 24px;}
+.page.active{display:block;}
+.pg-title{font-size:20px;color:var(--acc);margin-bottom:3px;}
+.pg-sub{font-size:11px;color:var(--tx2);font-family:var(--mo);margin-bottom:18px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:14px;}
+.card-title{font-size:10px;color:var(--acc);font-family:var(--mo);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.stat{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;}
+.stat-lbl{font-size:9px;color:var(--tx2);font-family:var(--mo);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.stat-val{font-size:22px;font-weight:bold;}
+.stat.w .stat-val{color:var(--acc);}
+.stat.d .stat-val{color:var(--acc2);}
+.stat.ok .stat-val{color:#3fb950;}
+input[type=text],select,textarea{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:5px;padding:7px 10px;font-size:12px;width:100%;outline:none;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;transition:all .12s;white-space:nowrap;}
+.btn-p{background:var(--acc);color:#000;font-weight:bold;}
+.btn-b{background:rgba(31,111,235,.2);color:#79c0ff;border:1px solid rgba(31,111,235,.3);}
+.ai-box{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:14px;margin-top:12px;}
+.ai-hdr{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ai-lbl{font-size:9px;font-family:var(--mo);color:var(--tx2);text-transform:uppercase;letter-spacing:1px;}
+.ai-out{font-size:12px;color:var(--tx);line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+.ai-out.loading{color:var(--tx2);font-style:italic;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">⚖ FOLDESI ESTATE — LEGAL CASE MANAGER</div>
+    <div class="hdr-sub">In re: Estate of Karoly Foldesi · Ada County, Idaho</div>
+  </div>
+  <div class="hdr-right">
+    <span class="badge badge-amber">TRIAL PREP</span>
+    <span class="badge badge-red">PRO SE</span>
+  </div>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="nav-grp">
+    <div class="nav-lbl">Overview</div>
+    <div class="nav-item active" onclick="nav(this,'dashboard')"><span class="nav-icon">◉</span>Dashboard</div>
+    <div class="nav-item" onclick="nav(this,'analyst')"><span class="nav-icon">🤖</span>AI Legal Analyst</div>
+  </div>
+</nav>
+
+<main class="main">
+<div class="page active" id="page-dashboard">
+  <div class="pg-title">Case Dashboard</div>
+  <div class="g4">
+    <div class="stat d"><div class="stat-lbl">Duration</div><div class="stat-val">6 YRS</div></div>
+    <div class="stat w"><div class="stat-lbl">Status</div><div class="stat-val">ACTIVE</div></div>
+  </div>
+</div>
+
+<div class="page" id="page-analyst">
+  <div class="pg-title">AI Legal Analyst</div>
+  <div class="card">
+    <textarea id="ai-query" placeholder="Ask a legal strategy question..." style="min-height:80px;margin-bottom:8px;"></textarea>
+    <button class="btn btn-p" onclick="askAnalyst()" id="ai-btn">🤖 Ask Legal Analyst</button>
+  </div>
+  <div class="ai-box" id="ai-out" style="display:none;">
+    <div class="ai-hdr"><div class="ai-dot"></div><div class="ai-lbl">AI Response</div></div>
+    <div class="ai-out" id="ai-res"></div>
+  </div>
+</div>
+</main>
+</div>
+
+<script>
+function nav(el, page) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('page-' + page).classList.add('active');
+}
+
+async function askAnalyst() {
+  const q = document.getElementById('ai-query').value.trim();
+  if (!q) return;
+  await callAI("You are a legal assistant helping Michael Foldesi.", q, 'ai-res', 'ai-out', 'ai-btn');
+}
+
+async function callAI(systemPrompt, userMsg, resultId, outputId, btnId) {
+  const resultEl = document.getElementById(resultId);
+  const outputEl = document.getElementById(outputId);
+  const btnEl = document.getElementById(btnId);
+  
+  outputEl.style.display = 'block';
+  resultEl.textContent = 'Processing with GitHub Models...';
+  resultEl.className = 'ai-out loading';
+  btnEl.disabled = true;
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system: systemPrompt, prompt: userMsg })
+    });
+    const data = await response.json();
+    resultEl.textContent = data.text || "No response.";
+    resultEl.className = 'ai-out';
+  } catch(e) {
+    resultEl.textContent = 'Error: Make sure GITHUB_TOKEN is set in Vercel.';
+    resultEl.className = 'ai-out';
+  }
+  btnEl.disabled = false;
+}
+</script>
+</body>
+</html>
